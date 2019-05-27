@@ -5,7 +5,7 @@
 <script type="text/javascript" src="http://mbostock.github.com/d3/d3.js?2.7.5"></script>
 <script type="text/javascript" src="carto.js"></script>
 <style type="text/css">
-.dclabel { font-family:Verdana, Geneva, sans-serif; font-weight:bold; letter-spacing:1.5px; 
+.dclabel { font-family:Verdana, Geneva, sans-serif; font-weight:bold; letter-spacing:1.5px;
 	color: #333; text-shadow: 1px 1px 2px grey, 0 0 1em white, 0 0 0.2em white;}
 .gratext { font-family:Verdana, Geneva, sans-serif; font-weight:bold; letter-spacing:2px;}
 .titletext { font-family:Georgia, "Times New Roman", Times, serif; font-size:1.2em;  letter-spacing:2px; color:#900;}</style>
@@ -14,22 +14,22 @@
 <body onload="cartogram();">
 <div>
 <button type="button" onclick="runCarto(1)">No Distortion</button>
-<button type="button" onclick="runCarto(2)">Roma</button>
-<button type="button" onclick="runCarto(3)">Constantinopolis</button>
-<button type="button" onclick="runCarto(4)">Londinium</button>
-<button type="button" onclick="runCarto(5)">Antiochia</button>
+<button type="button" onclick="runCarto(2)">Alai</button>
+<button type="button" onclick="runCarto(3)">Bellecour</button>
+<button type="button" onclick="runCarto(4)">Point du jour</button>
+<button type="button" onclick="runCarto(5)">Part lieu</button>
 </div>
 <div>
 <form action="">
-<input type="radio" name="rbcartopriority" value="cheapest" onclick="runCarto(6)" id="rb_cheapcarto" checked/> Cheapest
-<input type="radio" name="rbcartopriority" value="fastest" onclick="runCarto(6)" id="rb_fastcarto" /> Fastest
+<input type="radio" name="rbcartopriority" value="cheapest" onclick="runCarto(6)" id="rb_cheapcarto" checked/> Metro
+
 </form>
 <form action="">
-<input type="radio" name="rbcartomonth" onclick="runCarto(6)" id="rb_jancarto" checked/> Winter
-<input type="radio" name="rbcartomonth" onclick="runCarto(6)" id="rb_julcarto" /> Summer
+<input type="radio" name="rbcartomonth" onclick="runCarto(6)" id="rb_jancarto" checked/> actuelle
+<input type="radio" name="rbcartomonth" onclick="runCarto(6)" id="rb_julcarto" /> ligne E(Bellecour)
+
 </form>
 </div>
-<div id="carto" height="700" width="960"></div>
+<div id="carto" height="100" width="1200"></div>
 </body>
 </html>
-
