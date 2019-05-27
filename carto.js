@@ -6,7 +6,7 @@ function runCarto(action) {
 
 function cartogram() {
 
-w = 960;
+w = 960	;
 h = 500;
 
 var svg = d3.select("div#carto").append("svg")
@@ -19,9 +19,10 @@ var svg = d3.select("div#carto").append("svg")
 
 d3.json("cartdat.json", function(json) {
 
-	  var xramp=d3.scale.linear().domain([-8.5,43]).range([0,1]);
 
-	  var yramp=d3.scale.linear().domain([55.5,22.5]).range([0,1]);
+	  var xramp=d3.scale.linear().domain([0,1720]).range([0,1]);
+
+	  var yramp=d3.scale.linear().domain([0,1000]).range([0,1]);
 
 	  var colorramp=d3.scale.linear().domain([0,100,200]).range(["red","yellow","blue"]);
 
@@ -31,7 +32,7 @@ d3.json("cartdat.json", function(json) {
 
 	  restoreCarto = true;
 
-		
+
 
 		d3.json("med.json", function(json) {
 
@@ -65,7 +66,7 @@ d3.json("cartdat.json", function(json) {
 
 	  .data([1.0, .9, .8, .7, .6, .5, .4, .3, .2, .1])
 
-	  .enter().append("circle")		
+	  .enter().append("circle")
 
 	  .attr("cx", 480)
 
@@ -77,7 +78,7 @@ d3.json("cartdat.json", function(json) {
 
 	  .attr("class", "dccircle")
 
-	  .style("stroke", "gray")
+	  .style("stroke", "orange")
 
 	  .style("fill", "white")
 
@@ -88,8 +89,9 @@ d3.json("cartdat.json", function(json) {
 		  svg.selectAll("rect.legendrects")
 
 		  .data([0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200])
+			  //不知道它控制的是个狗。。
 
-		  .enter().append("rect")		
+		  .enter().append("rect")
 
 		  .attr("x", function(d) { return (d + 20)})
 
@@ -107,17 +109,17 @@ d3.json("cartdat.json", function(json) {
 
 		  ;
 
-		  var colorramp=d3.scale.linear().domain([0,3,25]).range(["red","yellow","blue"]);		
+		  var colorramp=d3.scale.linear().domain([0,25,50]).range(["red","yellow","blue"]);
 
 	  svg.selectAll("rect.siterects")
 
 	  .data(sites)
 
-	  .enter().append("rect")		
+	  .enter().append("rect")
 
-	  .attr("x", function(d) { return (xramp(d.xcoord) * 960)})
+	  .attr("x", function(d) {return (xramp(d.xcoord) * 960) })
 
-	  .attr("y", function(d) { return (yramp(d.ycoord) * 500)})
+	  .attr("y", function(d) { return (xramp(d.xcoord) * 500) })
 
 	  .attr("width", function(d) { return ((d.scale < 90) ? d.scale / 20 : 8)})
 
@@ -135,7 +137,7 @@ d3.json("cartdat.json", function(json) {
 
 	  var legendt = svg.selectAll("text.legendtext")
 
-	  .data([0, 1.5, 3, 12, 25])
+	  .data([0,12, 24, 36, 48])
 
 	  .enter().append("text")
 
@@ -145,7 +147,7 @@ d3.json("cartdat.json", function(json) {
 
 	  .attr("class", "legendtext")
 
-	  .text(function(d, i) { return (i == 4) ? ("" + d + " denarii") : ("" + d)})
+	  .text(function(d, i) { return (i == 4) ? ("" + d + " ，mins") : ("" + d)})
 
 	  ;
 
@@ -161,7 +163,7 @@ d3.json("cartdat.json", function(json) {
 
 	  .attr("class", "titletext")
 
-	  .text("Grain distance to Rome in Winter")
+	  .text("travel time by metro")
 
 	  ;
 
@@ -190,7 +192,7 @@ d3.json("cartdat.json", function(json) {
 
 	  ;
 
-	  
+
 
 	  svg.selectAll("text.dclabel")
 
@@ -214,23 +216,22 @@ d3.json("cartdat.json", function(json) {
 
 	  ;
 
-	  
 
 	  var selectiontext = svg.selectAll("text.ringlabel")
 
-	  .data([1.0, .9, .8, .7, .6, .5, .4, .3, .2, .1])
+	  .data([.5, .4, .3, .2, .1])
 
 	  .enter().append("text")
 
-	  .attr("x", function(d) { return ((d  * 960) + 480)})
+	  .attr("x", function(d) { return ((d* 960)  + 480)})
 
 	  .attr("y", 250)
 
-	  .text(function(d) { return d})
+	  .text(function(d) { return (d)})
 
 	  .attr("class", "ringlabel")
 
-	  .attr("opacity", 0);
+	.attr("opacity", 0);
 
 	  ;
 
@@ -244,7 +245,7 @@ d3.json("cartdat.json", function(json) {
 
 		    else {
 
-		    	d3.select(this).attr("opacity", 1)		    	
+		    	d3.select(this).attr("opacity", 1)
 
 		    }
 
@@ -284,7 +285,7 @@ d3.json("cartdat.json", function(json) {
 
 	  }
 
-	  
+
 
 }
 
@@ -294,50 +295,52 @@ d3.json("cartdat.json", function(json) {
 
 
 
-function shiftcarto(center, cheaptrue, jantrue) {
+function shiftcarto(center, metro, jantrue) {
 
 	var newTitleText = "";
 
 	//now get segments and draw d3 graph
 
 	var svg = d3.select("div#carto svg");
+//ae actuel+metro, ee ligneE(bellecour)+metro, ap ligneE(partlieu)  
 
-	if (cheaptrue == true) {
+	if (metro == true) {
 
 		var pathtype = "e";
 
-		var ringtype = " denarii";		
+		var ringtype = " mins";
 
-		max = 25;
+		max = 50;
 
-		mid = 3;
-		
-		newTitleText = "Grain distance to ";
+		mid = 25;
+
+		newTitleText = "Aller a ";
 
 	}
 
 	else {
 
-		var pathtype = "s";
+		var pathtype = "p";
 
-		max = 60;
+		max = 40;
 
-		mid = 10;
+		mid = 20;
 
-		var ringtype = " days";
-		
+		var ringtype = " mins";
+
 		newTitleText = "Travel time to ";
 	}
 
 	if (jantrue == true) {
 
-		var monthtype = "w";
+		var monthtype = "a";
 
 	}
 
+	
 	else {
 
-		var monthtype = "s";
+		var monthtype = "e";
 
 	}
 
@@ -351,7 +354,7 @@ function shiftcarto(center, cheaptrue, jantrue) {
 
 	else if (center == 6) {
 
-		center = cartoSetCenter;		
+		center = cartoSetCenter;
 
 	}
 
@@ -363,72 +366,74 @@ function shiftcarto(center, cheaptrue, jantrue) {
 
 		}
 
-	
+
 
 	if (center == 2) {
 
-		var datapath = "" + monthtype + pathtype + "_rom";
+		var datapath = "" + monthtype + pathtype + "_ali";
 
-		centerx = 12.49;
+		centerx = 23.04035	;
 
-		centery = 41.89;
+		centery = 217.92263;
 
-		newTitleText = newTitleText + "Rome in ";		
+		newTitleText = newTitleText + "Alai" +
+			" in ";
 
 	}
 
 	else if (center == 3) {
 
-		var datapath = "" + monthtype + pathtype + "_con";
+		var datapath = "" + monthtype + pathtype + "_be";
 
-		centerx = 28.99;
+		centerx = 283.20428	;
 
-		centery = 41.02;
-		
-		newTitleText = newTitleText + "Constantinopolis in ";		
+		centery = 194.64235;
+
+		newTitleText = newTitleText + "Bellecour in ";
 
 	}
 
 	else if (center == 4) {
 
-		var datapath = "" + monthtype + pathtype + "_lon";
+		var datapath = "" + monthtype + pathtype + "_pj";
 
-		centerx = -0.08;
+		centerx = 140.16212	;
 
-		centery = 51.52;
+		centery = 197.88239;
 
-		newTitleText = newTitleText + "Londinium in ";		
-		
+		newTitleText = newTitleText + "Point du jour in ";
+
 	}
 
 	else if (center == 5) {
 
-		var datapath = "" + monthtype + pathtype + "_ant";
+		var datapath = "" + monthtype + pathtype + "_pl";
 
-		centerx = 36.17;
+		centerx = 378.72572	;
 
-		centery = 36.21;
+		centery = 178.44215;
 
-		newTitleText = newTitleText + "Antiochia in ";		
+		newTitleText = newTitleText + "Part lieu in ";
 
+	}
+
+	if (monthtype == "e") {
+		newTitleText = newTitleText + "ligne E(Bellecour)";
 	}
 	
-	if (monthtype == "s") {
-		newTitleText = newTitleText + "Summer";			
-	}
 	else {
-		newTitleText = newTitleText + "Winter";						
+		newTitleText = newTitleText + "actuelle";
 	}
 
-			var xramp=d3.scale.linear().domain([-8.5,43]).range([0,960]);
+			var xramp=d3.scale.linear().domain([10,600]).range([0,960]);
 
-			  var yramp=d3.scale.linear().domain([55.5,22.5]).range([0,500]);
+			  var yramp=d3.scale.linear().domain([100,450]).range([0,500]);
 
 		  var colorramp=d3.scale.linear().domain([0,mid,max]).range(["red","yellow","blue"]);
 
-		  var costramp=d3.scale.linear().domain([0,max]).range([0,1]);	  
-		  
-		  
+		  var costramp=d3.scale.linear().domain([0,max]).range([0,1]);
+
+
 		  svg.selectAll("text.titletext")
 
 		  .transition()
@@ -470,7 +475,7 @@ if (restoreCarto == true) {
 
 		  ;
 
-		  
+
 
 		  svg.selectAll("text.dclabel")
 
@@ -537,7 +542,7 @@ else {
 
 		  ;
 
-		  
+
 
 		  svg.selectAll("text.dclabel")
 
@@ -555,9 +560,9 @@ else {
 
 		  svg.selectAll("text.ringlabel")
 
-		  .data([1.0, .9, .8, .7, .6, .5, .4, .3, .2, .1])
+		  .data([ .5, .4, .3, .2, .1])
 
-		  .text(function(d) { return (d == .2) ? "" + (Math.round((d * max) * 10)/10 ) + ringtype : (Math.round((d * max) * 10)/10 )})
+		  .text(function(d) { return (d*120) +  ringtype })
 
 			    .transition()
 
@@ -576,15 +581,15 @@ else {
 			    .style("opacity", 0);
 
 		  ;
-		  
+
 
 		  function findx(costin, thisx, thisy, cenx, ceny) {
 
-				var xramp=d3.scale.linear().domain([-8.5,43]).range([0,w]);
+				var xramp=d3.scale.linear().domain([10,400]).range([0,w]);
 
-				var yramp=d3.scale.linear().domain([55.5,22.5]).range([0,h]);
+				var yramp=d3.scale.linear().domain([110,450]).range([0,h]);
 
-				
+
 
 				var costramp=d3.scale.linear().domain([0,max]).range([0,1000]);
 
@@ -594,13 +599,13 @@ else {
 
 					var ydiff = yramp(thisy) - yramp(ceny) + .001;
 
-					
+
 
 					var hypotenuse = Math.sqrt((Math.pow(xdiff,2)) + (Math.pow(ydiff,2)));
 
-					var ratio = costramp(costin) / hypotenuse;
+					var ratio = (costramp(costin) / hypotenuse)/2.3;
 
-				  
+
 
 			  return (ratio * xdiff) + (w / 2);
 
@@ -608,11 +613,11 @@ else {
 
 		  function findy(costin, thisx, thisy, cenx, ceny) {
 
-				var xramp=d3.scale.linear().domain([-8.5,43]).range([0,w]);
+				var xramp=d3.scale.linear().domain([10,400]).range([0,w]);
 
-				var yramp=d3.scale.linear().domain([55.5,22.5]).range([0,h]);
+				var yramp=d3.scale.linear().domain([110,450]).range([0,h]);
 
-				
+
 
 				var costramp=d3.scale.linear().domain([0,max]).range([0,1000]);
 
@@ -622,13 +627,13 @@ else {
 
 					var ydiff = yramp(thisy) - yramp(ceny) + .001;
 
-					
+
 
 					var hypotenuse = Math.sqrt(Math.pow(xdiff,2) + Math.pow(ydiff,2));
 
-					var ratio = costramp(costin) / hypotenuse;
+					var ratio = (costramp(costin) / hypotenuse)/2.3;
 
-				  
+
 
 			  return (ratio * ydiff) + (h / 2);
 
@@ -646,7 +651,7 @@ var legendt = svg.selectAll("text.legendtext")
 
   .duration(3000)
 
-.style("opacity", .8)	  
+.style("opacity", .8)
 
 ;
 
