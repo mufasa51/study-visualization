@@ -1,7 +1,19 @@
 function runCarto(action) {
 		var cheapBtn = document.getElementById('rb_cheapcarto');
-		var monthBtn = document.getElementById('rb_jancarto');
-		shiftcarto(action, cheapBtn.checked, monthBtn.checked);
+		var rbcartomonth = document.getElementsByName
+		var monthBtn = undefined;
+		
+		if (document.getElementById("actuel").checked) {
+			monthBtn = document.getElementById('actuel');
+		}
+		else if(document.getElementById("bellecour").checked){
+			monthBtn = document.getElementById('bellecour');
+		}
+		else {
+			monthBtn = document.getElementById('partlieu');
+		}	
+		
+		shiftcarto(action, cheapBtn.checked, monthBtn.value);
 };
 
 function cartogram() {
@@ -31,36 +43,6 @@ d3.json("cartdat.json", function(json) {
 	  cartoSetCenter = 2;
 
 	  restoreCarto = true;
-
-
-
-		d3.json("med.json", function(json) {
-
-			  var med = json;
-
-			  var lineFn = d3.svg.line()
-
-			  .x(function(d) { return (xramp(d.xcoord) * w)})
-
-			  .y(function(d) { return (yramp(d.ycoord) * h)})
-
-			  .interpolate("cardinal")
-
-			  ;
-
-			  svg.append("path")
-
-				.style("fill", "black")
-
-				.style("stroke", "black")
-
-				.style("stroke-width", 1)
-
-				.style("opacity", .1)
-
-				.attr("d", lineFn(med))
-
-		})
 
 	  svg.selectAll("circle.dccircle")
 
@@ -296,7 +278,7 @@ d3.json("cartdat.json", function(json) {
 
 
 function shiftcarto(center, metro, jantrue) {
-
+	// console.log(jantrue);
 	var newTitleText = "";
 
 	//now get segments and draw d3 graph
@@ -331,18 +313,25 @@ function shiftcarto(center, metro, jantrue) {
 		newTitleText = "Travel time to ";
 	}
 
-	if (jantrue == true) {
+	
+	
+	if (jantrue == 0) {
 
 		var monthtype = "a";
-
+		
+		}
+	else if(jantrue == 1) {
+		
+		var monthtype = "e";
+		
 	}
-
-	
 	else {
 
-		var monthtype = "e";
+			var monthtype = "p";
 
 	}
+	
+	
 
 	if (center == 1) {
 
@@ -420,7 +409,9 @@ function shiftcarto(center, metro, jantrue) {
 	if (monthtype == "e") {
 		newTitleText = newTitleText + "ligne E(Bellecour)";
 	}
-	
+	else if (monthtype == "p") {
+		newTitleText = newTitleText + "ligne E(part lieu)";
+	}
 	else {
 		newTitleText = newTitleText + "actuelle";
 	}
