@@ -21,12 +21,14 @@
 </div>
 <div>
 <form action="">
-<input type="radio" name="rbcartopriority" value="cheapest" onclick="runCarto(6)" id="rb_cheapcarto" checked/> Metro
+<input type="radio" name="rbcartopriority" value="cheapest" onclick="runCarto(6)" id="rb_cheapcarto" Checked/> Metro
 
 </form>
 <form action="">
-<input type="radio" name="rbcartomonth" onclick="runCarto(6)" id="rb_jancarto" checked/> actuelle
-<input type="radio" name="rbcartomonth" onclick="runCarto(6)" id="rb_julcarto" /> ligne E(Bellecour)
+	<input type="radio" name="rbcartomonth" value="0" onclick="runCarto(6)" id="actuel"/> Actuelle
+	<input type="radio" name="rbcartomonth" value="1" onclick="runCarto(6)" id="bellecour"/> ligne E(Bellecour)
+	<input type="radio" name="rbcartomonth" value="3" onclick="runCarto(6)" id="partlieu"/> ligne E(Part lieu)
+
 
 </form>
 </div>
