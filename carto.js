@@ -1,25 +1,26 @@
 function runCarto(action) {
-		var cheapBtn = document.getElementById('rb_cheapcarto');
-		var rbcartomonth = document.getElementsByName
-		var monthBtn = undefined;
+		var equipeBtn = document.getElementById('rb_equipecarto');
+		var rbcartosituation = document.getElementsByName
+		var situBtn = undefined;
 		
 		if (document.getElementById("actuel").checked) {
-			monthBtn = document.getElementById('actuel');
+			situBtn = document.getElementById('actuel');
 		}
 		else if(document.getElementById("bellecour").checked){
-			monthBtn = document.getElementById('bellecour');
+			situBtn = document.getElementById('bellecour');
 		}
 		else {
-			monthBtn = document.getElementById('partlieu');
+			situBtn = document.getElementById('partdieu');
 		}	
 		
-		shiftcarto(action, cheapBtn.checked, monthBtn.value);
+		shiftcarto(action, equipeBtn.checked, situBtn.value);
 };
 
 function cartogram() {
 
-w = 960	;
-h = 500;
+w = 1200;
+h = 700;
+//Taille de la carte
 
 var svg = d3.select("div#carto").append("svg")
 
@@ -32,9 +33,9 @@ var svg = d3.select("div#carto").append("svg")
 d3.json("cartdat.json", function(json) {
 
 
-	  var xramp=d3.scale.linear().domain([0,1720]).range([0,1]);
+	  var xramp=d3.scale.linear().domain([0,1200]).range([0,1]);
 
-	  var yramp=d3.scale.linear().domain([0,1000]).range([0,1]);
+	  var yramp=d3.scale.linear().domain([0,700]).range([0,1]);
 
 	  var colorramp=d3.scale.linear().domain([0,100,200]).range(["red","yellow","blue"]);
 
@@ -50,11 +51,11 @@ d3.json("cartdat.json", function(json) {
 
 	  .enter().append("circle")
 
-	  .attr("cx", 480)
+	  .attr("cx", 600)
 
-	  .attr("cy", 250)
+	  .attr("cy", 350)
 
-	  .attr("r", function(d) { return (d * 960)})
+	  .attr("r", function(d) { return (d * 1200)})
 
 
 
@@ -77,7 +78,7 @@ d3.json("cartdat.json", function(json) {
 
 		  .attr("x", function(d) { return (d + 20)})
 
-		  .attr("y", 380)
+		  .attr("y", 650)
 
 		  .attr("width", 20)
 
@@ -99,9 +100,9 @@ d3.json("cartdat.json", function(json) {
 
 	  .enter().append("rect")
 
-	  .attr("x", function(d) {return (xramp(d.xcoord) * 960) })
+	  .attr("x", function(d) {return (xramp(d.xcoord) * 1200) })
 
-	  .attr("y", function(d) { return (xramp(d.xcoord) * 500) })
+	  .attr("y", function(d) { return (xramp(d.xcoord) * 700) })
 
 	  .attr("width", function(d) { return ((d.scale < 90) ? d.scale / 20 : 8)})
 
@@ -113,7 +114,7 @@ d3.json("cartdat.json", function(json) {
 
 	  .style("opacity", 1)
 
-	  ;
+	  ;//le nom n'est pas affiché pour les point qui leur valeur de sacle plus petit
 
 
 
@@ -125,7 +126,7 @@ d3.json("cartdat.json", function(json) {
 
 	  .attr("x", function(d, i) { return ((i * 50) + 25)})
 
-	  .attr("y", 375)
+	  .attr("y", 640)
 
 	  .attr("class", "legendtext")
 
@@ -141,7 +142,7 @@ d3.json("cartdat.json", function(json) {
 
 	  .attr("x", 25)
 
-	  .attr("y", 355)
+	  .attr("y", 615)
 
 	  .attr("class", "titletext")
 
@@ -156,7 +157,7 @@ d3.json("cartdat.json", function(json) {
 
 	  .enter().append("text")
 
-	  .attr("x", 860)
+	  .attr("x", 1000)
 
 	  .attr("y", function(d, i) { return (i * 20) + 20})
 
@@ -182,7 +183,7 @@ d3.json("cartdat.json", function(json) {
 
 	  .enter().append("text")
 
-	  .attr("x", function(d) { return ((xramp(d.xcoord)  * 960) - 5)})
+	  .attr("x", function(d) { return ((xramp(d.xcoord)  * 1200) - 5)})
 
 	  .attr("y", function(d) { return ((yramp(d.ycoord)  * 500) + 5)})
 
@@ -201,13 +202,13 @@ d3.json("cartdat.json", function(json) {
 
 	  var selectiontext = svg.selectAll("text.ringlabel")
 
-	  .data([.5, .4, .3, .2, .1])
+	  .data([.0, .1, .2, .3, .4])
 
 	  .enter().append("text")
 
-	  .attr("x", function(d) { return ((d* 960)  + 480)})
+	  .attr("x", function(d) { return ((d* 1200))})
 
-	  .attr("y", 250)
+	  .attr("y", 350)
 
 	  .text(function(d) { return (d)})
 
@@ -284,7 +285,8 @@ function shiftcarto(center, metro, jantrue) {
 	//now get segments and draw d3 graph
 
 	var svg = d3.select("div#carto svg");
-//ae actuel+metro, ee ligneE(bellecour)+metro, ap ligneE(partlieu)  
+//ae_XX actuel+metro, ee_XX ligneE(bellecour)+metro, pe_XX ligneE(partlieu)+metro  
+// XX le point central, _ali=alai, _be=bellecour , _pd=part dieu , _pj=point du jour 
 
 	if (metro == true) {
 
@@ -396,7 +398,7 @@ function shiftcarto(center, metro, jantrue) {
 
 	else if (center == 5) {
 
-		var datapath = "" + monthtype + pathtype + "_pl";
+		var datapath = "" + monthtype + pathtype + "_pd";
 
 		centerx = 378.72572	;
 
@@ -416,7 +418,7 @@ function shiftcarto(center, metro, jantrue) {
 		newTitleText = newTitleText + "actuelle";
 	}
 
-			var xramp=d3.scale.linear().domain([10,600]).range([0,960]);
+			var xramp=d3.scale.linear().domain([10,600]).range([0,1200]);
 
 			  var yramp=d3.scale.linear().domain([100,450]).range([0,500]);
 
