@@ -72,7 +72,7 @@ d3.json("cartdat.json", function(json) {
 		  svg.selectAll("rect.legendrects")
 
 		  .data([0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200])
-			  //不知道它控制的是个狗。。
+
 
 		  .enter().append("rect")
 
